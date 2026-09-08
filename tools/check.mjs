@@ -205,8 +205,14 @@ for (const pagina of paginas) {
 
   /* --- o que a CSP proibiria --- */
   if (!/<meta http-equiv="Content-Security-Policy" content="default-src 'none'/.test(html)) { anota(pagina, 'CSP ausente ou permissiva'); }
-  for (const diretiva of ["form-action 'none'", "connect-src 'none'", "frame-ancestors 'none'", "base-uri 'none'"]) {
+  for (const diretiva of ["form-action 'none'", "connect-src 'none'", "base-uri 'none'"]) {
     if (!html.includes(diretiva)) { anota(pagina, `CSP sem a diretiva ${diretiva}`); }
+  }
+  /* O contrário das linhas acima: esta diretiva não pode estar na meta. O
+     navegador a ignora aí e ainda registra erro no console. Ela é cabeçalho
+     HTTP, e como tal está anotada no README. */
+  if (/<meta http-equiv="Content-Security-Policy"[^>]*frame-ancestors/.test(html)) {
+    anota(pagina, "frame-ancestors na CSP por meta: o navegador ignora e acusa erro; defina como cabeçalho HTTP");
   }
   if (/\sstyle="/.test(html)) { anota(pagina, 'atributo style inline (bloqueado pela CSP)'); }
   if (/<style[\s>]/.test(html)) { anota(pagina, 'bloco style inline (bloqueado pela CSP)'); }

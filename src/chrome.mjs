@@ -211,12 +211,18 @@ function rodape(p, ctx) {
 /* Uma CSP fechada. `default-src 'none'` derruba tudo que não estiver aberto
    abaixo, e nada aqui abre para terceiro: sem CDN, sem fonte remota, sem
    analytics, sem iframe. `form-action 'none'` porque nenhum formulário do
-   site envia dados para lugar nenhum. */
+   site envia dados para lugar nenhum.
+
+   `frame-ancestors` NÃO entra aqui de propósito. O navegador ignora essa
+   diretiva quando ela vem por <meta>, e ainda registra erro no console. Ela
+   só funciona como cabeçalho HTTP, e o GitHub Pages não deixa definir
+   cabeçalho. Quando o site mudar para hospedagem própria, configurar lá
+   `Content-Security-Policy: frame-ancestors 'none'` (ou o equivalente
+   `X-Frame-Options: DENY`). Está registrado no README. */
 const CSP = [
   "default-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",
-  "frame-ancestors 'none'",
   "img-src 'self'",
   "style-src 'self'",
   "script-src 'self'",

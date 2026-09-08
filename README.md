@@ -75,14 +75,22 @@ O site foi feito para **não coletar nada**, e isso é verificável, não apenas
 declarado.
 
 - **CSP fechada.** `default-src 'none'`, com `connect-src 'none'`,
-  `form-action 'none'`, `frame-ancestors 'none'` e `base-uri 'none'`. O
-  navegador bloqueia qualquer tentativa de enviar dado para fora.
+  `form-action 'none'` e `base-uri 'none'`. O navegador bloqueia qualquer
+  tentativa de enviar dado para fora.
 - **Zero terceiros.** Nenhum script, folha, fonte, mapa embutido ou pixel de
   fora. As fontes são hospedadas junto com o site.
 - **Sem cookies, sem medição de audiência, sem publicidade.**
 - **Sem estilo ou script embutido no HTML.** Nada de `style=`, `<style>` ou
   `on*=`, o que torna a CSP eficaz de verdade.
 - `referrer: no-referrer`, e todo link externo com `noopener noreferrer`.
+
+**Uma pendência que depende da hospedagem.** A diretiva `frame-ancestors`,
+que impede o site de ser carregado dentro de um quadro de terceiro, só
+funciona como cabeçalho HTTP; o navegador a ignora quando ela vem por `meta`.
+O GitHub Pages não permite definir cabeçalho. Quando o site for para
+hospedagem própria, configurar lá `Content-Security-Policy: frame-ancestors
+'none'` (ou `X-Frame-Options: DENY`), junto com `Strict-Transport-Security` e
+`X-Content-Type-Options: nosniff`.
 
 ### O agendamento não envia nada
 
