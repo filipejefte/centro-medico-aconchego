@@ -1,0 +1,23 @@
+# Material de trabalho e notas internas. O repositorio e' publico: nada daqui
+# pode chegar ao cliente nem a quem buscar a clinica no Google. Contem os tres
+# documentos de diagnostico, que trazem analise de reputacao de terceiros.
+interno/
+NOTAS-INTERNAS.md
+
+# Copias cheias das fontes, guardadas antes do recorte. Nao precisam ir para
+# o site publicado.
+assets/fonts/*.original.woff2
+
+# Perfis temporarios do Chrome usados para renderizar a imagem de
+# compartilhamento.
+tools/chrome-profile-*/
+
+# Configuracao local de ferramentas.
+.claude/
+
+# Sistema
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+desktop.ini

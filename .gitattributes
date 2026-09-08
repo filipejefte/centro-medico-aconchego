@@ -1,0 +1,11 @@
+# O gerador escreve LF. Fixar LF no repositorio mantem o HTML versionado
+# identico ao que build.mjs produz, em qualquer sistema. Sem isto o passo do
+# CI que compara o HTML gerado com o versionado falha so por fim de linha.
+* text=auto eol=lf
+
+*.png binary
+*.woff2 binary
+
+# O PowerShell do Windows lida bem com LF, mas manter CRLF aqui evita
+# surpresa em editor antigo.
+*.ps1 text eol=crlf
