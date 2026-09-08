@@ -198,7 +198,9 @@ export const ESPECIALIDADES = [
   { slug: 'dermatologia', nome: 'Dermatologia', sobre: 'Pele, cabelos e unhas: manchas, lesões, alergias e acompanhamento de sinais.' },
   { slug: 'geriatria', nome: 'Geriatria', sobre: 'Atendimento pensado para a pessoa idosa, com atenção a quedas, memória, sono e uso de vários remédios ao mesmo tempo.' },
   { slug: 'ginecologia', nome: 'Ginecologia', sobre: 'Saúde da mulher em todas as fases, com exames de rotina e acompanhamento contínuo.' },
-  { slug: 'obstetricia', nome: 'Obstetrícia', sobre: 'Acompanhamento da gestação, do pré-natal ao parto.' },
+  /* Não escrever "até o parto": nenhuma fonte pública confirma que a clínica
+     realiza partos, e prometer isso mandaria gestante para o lugar errado. */
+  { slug: 'obstetricia', nome: 'Obstetrícia', sobre: 'Consultas de pré-natal e acompanhamento da gestação.' },
   { slug: 'oftalmologia', nome: 'Oftalmologia', sobre: 'Consultas e exames de olhos. Tem agenda e telefone próprios.', telefone: '(14) 2105-1499' },
   { slug: 'oncologia', nome: 'Oncologia', sobre: 'Avaliação e acompanhamento de pacientes em tratamento oncológico.' },
   { slug: 'ortopedia', nome: 'Ortopedia', sobre: 'Ossos, articulações e músculos: dores, lesões, fraturas e reabilitação.' },

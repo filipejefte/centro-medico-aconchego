@@ -65,11 +65,20 @@ writeFileSync(join(RAIZ, 'site.webmanifest'), JSON.stringify({
 /* --- sitemap e robots ------------------------------------------------ */
 
 const publicas = paginas.filter(pg => pg.p.path !== '404.html');
-const hoje = new Date().toISOString().slice(0, 10);
 
+/* Sem `lastmod`, de propósito, por dois motivos.
+
+   O primeiro é honestidade: carimbar a data de hoje em toda página a cada
+   build afirma que todas mudaram hoje, o que é falso, e buscador que percebe
+   isso passa a ignorar o campo.
+
+   O segundo é que a data de hoje torna a build não reprodutível, e o CI
+   compara o HTML gerado com o versionado. Com `lastmod`, a verificação
+   passaria no dia do commit e falharia no dia seguinte, sem ninguém ter
+   mexido em nada. */
 writeFileSync(join(RAIZ, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${publicas.map(pg => `  <url><loc>${ctx.origem}/${pg.p.path === 'index.html' ? '' : pg.p.path}</loc><lastmod>${hoje}</lastmod></url>`).join('\n')}
+${publicas.map(pg => `  <url><loc>${ctx.origem}/${pg.p.path === 'index.html' ? '' : pg.p.path}</loc></url>`).join('\n')}
 </urlset>
 `);
 
