@@ -100,7 +100,7 @@ export const UNIDADES = [
   {
     id: 'diagnostico-por-imagem',
     nome: 'Diagnóstico por Imagem',
-    resumo: 'Exames de imagem. Fica na mesma rua, a poucos metros do Centro Médico.',
+    resumo: 'Exames de imagem. Fica na mesma rua do Centro Médico, em outro prédio.',
     numero: '340',
     logradouro: 'R. Dr. Joaquim de Abreu Sampaio Vidal',
     bairro: 'Alto Cafezal',
@@ -159,7 +159,7 @@ export const CANAIS = [
   {
     id: 'exames',
     titulo: 'Exames de imagem',
-    descricao: 'Tomografia, ultrassonografia e radiografia, na unidade de Diagnóstico por Imagem.',
+    descricao: 'Tomografia, ultrassonografia e radiografia.',
     telefone: '(14) 2105-1477',
     e164: '551421051477',
     whatsapp: WHATSAPP.numero,
@@ -192,22 +192,22 @@ export const CONTATO = { whatsapp: WHATSAPP, zap };
    ------------------------------------------------------------------------- */
 
 export const ESPECIALIDADES = [
-  { slug: 'clinica-medica', nome: 'Clínica Médica', sobre: 'A porta de entrada para queixas gerais, acompanhamento de doenças crônicas e encaminhamento para as demais especialidades.' },
+  { slug: 'clinica-medica', nome: 'Clínica Médica', sobre: 'É a consulta por onde começar quando a queixa é geral. Acompanha doença crônica e encaminha para a área certa.' },
   { slug: 'cardiologia', nome: 'Cardiologia', sobre: 'Acompanhamento do coração e da pressão, avaliação antes de cirurgias e seguimento de quem já trata do coração.' },
   { slug: 'cirurgia-vascular', nome: 'Cirurgia Vascular', sobre: 'Cuidado das veias e artérias, incluindo varizes, feridas que não fecham e circulação das pernas.' },
   { slug: 'dermatologia', nome: 'Dermatologia', sobre: 'Pele, cabelos e unhas: manchas, lesões, alergias e acompanhamento de sinais.' },
   { slug: 'geriatria', nome: 'Geriatria', sobre: 'Atendimento pensado para a pessoa idosa, com atenção a quedas, memória, sono e uso de vários remédios ao mesmo tempo.' },
-  { slug: 'ginecologia', nome: 'Ginecologia', sobre: 'Saúde da mulher em todas as fases, com exames de rotina e acompanhamento contínuo.' },
+  { slug: 'ginecologia', nome: 'Ginecologia', sobre: 'Saúde da mulher em todas as fases, do exame preventivo à menopausa.' },
   /* Não escrever "até o parto": nenhuma fonte pública confirma que a clínica
      realiza partos, e prometer isso mandaria gestante para o lugar errado. */
   { slug: 'obstetricia', nome: 'Obstetrícia', sobre: 'Consultas de pré-natal e acompanhamento da gestação.' },
   { slug: 'oftalmologia', nome: 'Oftalmologia', sobre: 'Consultas e exames de olhos. Tem agenda e telefone próprios.', telefone: '(14) 2105-1499' },
-  { slug: 'oncologia', nome: 'Oncologia', sobre: 'Avaliação e acompanhamento de pacientes em tratamento oncológico.' },
-  { slug: 'ortopedia', nome: 'Ortopedia', sobre: 'Ossos, articulações e músculos: dores, lesões, fraturas e reabilitação.' },
+  { slug: 'oncologia', nome: 'Oncologia', sobre: 'Consulta e acompanhamento de quem está em tratamento de câncer, junto com a equipe que conduz o caso.' },
+  { slug: 'ortopedia', nome: 'Ortopedia', sobre: 'Cuida de fratura, dor nas costas, joelho e ombro, e da recuperação depois de uma lesão ou de uma cirurgia.' },
   { slug: 'pediatria', nome: 'Pediatria', sobre: 'Acompanhamento de crianças e adolescentes, do crescimento às queixas do dia a dia.' },
-  { slug: 'urologia', nome: 'Urologia', sobre: 'Rins, bexiga e saúde do homem, com exames de rotina e acompanhamento.' },
+  { slug: 'urologia', nome: 'Urologia', sobre: 'Cuida dos rins, da bexiga e da próstata, e do que atrapalha o funcionamento urinário em homens e mulheres.' },
   { slug: 'psiquiatria', nome: 'Psiquiatria', sobre: 'Acompanhamento em saúde mental, com consulta e seguimento ao longo do tratamento.' },
-  { slug: 'psicologia', nome: 'Psicologia', sobre: 'Atendimento psicológico individual, em acompanhamento contínuo.' },
+  { slug: 'psicologia', nome: 'Psicologia', sobre: 'Conversas individuais com psicólogo, em sessões marcadas, para tratar ansiedade, luto e outras questões de saúde mental.' },
   { slug: 'nutricao', nome: 'Nutrição', sobre: 'Orientação alimentar para acompanhar tratamentos e condições de saúde.' },
   { slug: 'fisioterapia', nome: 'Fisioterapia', sobre: 'Reabilitação de movimento, força e equilíbrio, inclusive depois de cirurgia ou internação.' }
 ];
@@ -238,10 +238,14 @@ export const LEVAR = [
    ------------------------------------------------------------------------- */
 
 export const ESTRUTURA = [
-  { nome: 'Nove consultórios', sobre: 'Consultas eletivas nas especialidades, em consultórios próprios do Centro Médico.' },
+  { nome: 'Nove consultórios', sobre: 'Consultas marcadas com hora, nas áreas de atendimento, em consultórios próprios do Centro Médico.' },
   { nome: 'Centro cirúrgico com duas salas', sobre: 'Cirurgias de pequena e média complexidade, com internação no próprio prédio.' },
-  { nome: 'Enfermaria 24 horas', sobre: 'Leitos de retaguarda com acompanhamento de enfermagem a qualquer hora.' },
-  { nome: 'Sala de estabilização', sobre: 'Estrutura de emergência para o primeiro atendimento de casos graves.' },
+  { nome: 'Enfermaria 24 horas', sobre: 'Leitos com enfermagem a qualquer hora, para quem precisa ficar internado ou em observação.' },
+  /* NÃO escrever aqui "primeiro atendimento de casos graves". O CNAE da
+     filial é 86.10-1/01, atendimento hospitalar EXCETO pronto-socorro, e a
+     sala de estabilização aparece na fonte só como parte da UCP. Quem lê
+     "emergência" com dor no peito dirige até aqui em vez de chamar o SAMU. */
+  { nome: 'Sala de estabilização', sobre: 'Estrutura para atender intercorrência de quem já está em atendimento ou internado na unidade, enquanto o caso é avaliado e encaminhado.' },
   { nome: 'Unidade de Cuidados Prolongados', sobre: 'Quinze leitos para quem precisa de mais tempo de recuperação depois de uma cirurgia ou de uma internação longa.' },
   { nome: 'Laboratório e imagem', sobre: 'Análises clínicas no Centro Médico e exames de imagem na unidade da mesma rua.' }
 ];
@@ -259,9 +263,14 @@ export const UCP = {
    ------------------------------------------------------------------------- */
 
 export const ATENDIMENTO = [
-  { nome: 'SUS', sobre: 'Parte do atendimento é feita em parceria com a Prefeitura de Marília, pelo Sistema Único de Saúde, com encaminhamento da rede municipal.' },
+  /* NÃO escrever aqui "com encaminhamento da rede municipal": esse mecanismo
+     de acesso foi inferido, não consta de nenhuma fonte, e mandar paciente do
+     SUS buscar na UBS um encaminhamento que talvez não seja o caminho custa
+     dias a ele. O contrato que sustenta a parceria (CV-1200/21) vence em
+     22/09/2026: confirmar a renovação antes de publicar em produção. */
+  { nome: 'SUS', sobre: 'Parte do atendimento é feita em parceria com a Prefeitura de Marília, pelo Sistema Único de Saúde. Confirme com a recepção como é o acesso hoje.' },
   { nome: 'Convênios', sobre: 'A clínica atende por convênio. Confirme a cobertura do seu plano no momento de marcar.' },
-  { nome: 'Particular', sobre: 'Também é possível marcar consulta ou exame sem convênio. Os valores são informados no agendamento.' }
+  { nome: 'Particular', sobre: 'Dá para marcar consulta ou exame sem convênio. O valor depende da área e do exame, e quem atende no telefone informa antes de você fechar o horário.' }
 ];
 
 /* Lista de convênios aceitos: nenhuma fonte pública traz. Pedir à clínica. */
@@ -271,11 +280,15 @@ export const CONVENIOS = null;
    8. Navegação
    ------------------------------------------------------------------------- */
 
+/* "Contato" entra no menu de propósito. O botão "Agendar" não substitui:
+   quem liga por causa de uma nota fiscal ou de um resultado não clica em
+   agendar, procura a palavra contato. "A instituição" desce para o rodapé,
+   porque é conteúdo de confiança e não de tarefa. */
 export const MENU = [
   { path: 'index.html', rotulo: 'Início' },
   { path: 'especialidades.html', rotulo: 'Especialidades' },
   { path: 'exames.html', rotulo: 'Exames' },
   { path: 'estrutura.html', rotulo: 'Estrutura' },
   { path: 'unidades.html', rotulo: 'Unidades' },
-  { path: 'instituicao.html', rotulo: 'A instituição' }
+  { path: 'contato.html', rotulo: 'Contato' }
 ];

@@ -45,6 +45,24 @@
     };
     if (largura.addEventListener) { largura.addEventListener('change', aoMudar); }
     else if (largura.addListener) { largura.addListener(aoMudar); }
+
+    /* Aberto, o menu empurra o cabeçalho grudento para perto de 400 px de
+       altura e passa a cobrir o começo do conteúdo. Fechar no Escape e ao
+       sair do cabeçalho evita isso e evita foco escondido atrás do menu. */
+    var fechar = function () {
+      if (!nav.classList.contains('aberto')) { return; }
+      nav.classList.remove('aberto');
+      botao.setAttribute('aria-expanded', 'false');
+    };
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') { fechar(); botao.focus(); }
+    });
+    var topo = botao.closest('header');
+    if (topo) {
+      topo.addEventListener('focusout', function (ev) {
+        if (!topo.contains(ev.relatedTarget)) { fechar(); }
+      });
+    }
   }
 
   /* ---------------------------------------------------------------- */
@@ -96,6 +114,8 @@
       partes.push(ex
         ? 'Gostaria de agendar um exame de ' + ex + '.'
         : 'Gostaria de agendar um exame de imagem.');
+    } else if (tipo === 'laboratorio') {
+      partes.push('Gostaria de agendar coleta de sangue ou exame de laboratório.');
     } else {
       partes.push('Gostaria de marcar um atendimento de oftalmologia.');
     }
@@ -107,6 +127,15 @@
     if (periodo && periodo.value) { partes.push('O melhor período para mim é ' + periodo.value + '.'); }
 
     if (nome) { partes.push('Meu nome é ' + nome + '.'); }
+
+    /* O numero da rua entra na mensagem, e nao so na tela. Dois motivos: a
+       pessoa fica com ele guardado no proprio historico do WhatsApp, e a
+       recepcao e' obrigada a confirmar, que e' justamente o passo que hoje
+       nao acontece e faz gente ir ao predio errado. */
+    var numero = servico.getAttribute('data-numero');
+    if (numero) {
+      partes.push('Entendi que é no número ' + numero + ' da Rua Dr. Joaquim de Abreu Sampaio Vidal. Confirma para mim, por favor?');
+    }
 
     return partes.join(' ');
   }
@@ -133,8 +162,6 @@
     if (btnZap) {
       if (msg) {
         btnZap.href = 'https://wa.me/' + zap + '?text=' + encodeURIComponent(msg);
-        btnZap.removeAttribute('aria-disabled');
-        btnZap.classList.remove('btn-inerte');
       } else {
         btnZap.href = 'https://wa.me/' + zap;
       }
@@ -160,7 +187,7 @@
      marcada, em vez de ter que escolher duas vezes. */
   function aplicarEndereco() {
     var alvo = (window.location.hash || '').replace('#', '');
-    var mapa = { consulta: 'serv-consulta', 'exame-imagem': 'serv-exame', oftalmologia: 'serv-oftalmo' };
+    var mapa = { consulta: 'serv-consulta', 'exame-imagem': 'serv-exame', laboratorio: 'serv-laboratorio', oftalmologia: 'serv-oftalmo' };
     var id = mapa[alvo];
     if (!id) { return; }
     var radio = document.getElementById(id);

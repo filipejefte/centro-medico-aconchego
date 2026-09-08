@@ -61,6 +61,7 @@
   --areia-3: #ece0d0;
   --linha: #e3d8c9;
   --linha-forte: #d2c3ae;
+  --borda-campo: #6d6459;
 
   /* Ações. */
   --terra: #a9532f;
@@ -148,6 +149,17 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
   border-radius: 4px;
 }
 
+/* Sobre fundo escuro o terracota da 2.59:1 contra o azul-noite, abaixo do
+   minimo de 3:1. O salmao claro da paleta da 6.77:1. Isso vale para o rodape
+   inteiro, para a secao azul e para o link de pular, que aparece por cima da
+   tarja escura. */
+.secao-azul :focus-visible,
+.chamada :focus-visible,
+.rodape :focus-visible,
+.tarja :focus-visible,
+.previa :focus-visible,
+.pular:focus-visible { outline-color: #e8a888; }
+
 ::selection { background: var(--azul-veu-2); color: var(--azul-tinta); }
 
 /* ------------------------------------------------------------------ */
@@ -164,12 +176,6 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 .env-estreito { max-width: 760px; }
 
 .ico { width: 1.25em; height: 1.25em; flex: none; }
-
-.so-leitor {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-}
 
 .pular {
   position: absolute; left: 1rem; top: -100px; z-index: 60;
@@ -192,8 +198,6 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
   font-family: var(--sans);
 }
 
-.olho-so { display: block; }
-
 /* ------------------------------------------------------------------ */
 /* Faixa de prévia e tarja institucional                               */
 /* ------------------------------------------------------------------ */
@@ -214,7 +218,7 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 .tarja {
   background: var(--azul-noite);
   color: #c6dbe9;
-  font-size: .875rem;
+  font-size: 1rem;
   letter-spacing: .01em;
 }
 .tarja p {
@@ -510,9 +514,12 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 /* ------------------------------------------------------------------ */
 
 .grade { display: grid; gap: 1.4rem; }
-.grade-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.grade-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.grade-4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+/* O `min(100%, ...)` em toda trilha nao e' enfeite: com minmax rigido a
+   grade nao cabe em 320 px nem em zoom de 400%, e a pagina passa a rolar de
+   lado. Isso e' falha de refluxo (WCAG 1.4.10). */
+.grade-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.grade-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.grade-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
 /* Trava em duas colunas. Para conjuntos de quatro itens, que em auto-fit
    caem como três mais um órfão. */
 .grade-dupla { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
@@ -560,18 +567,23 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 .especialidades {
   display: grid;
   gap: 0 clamp(1.75rem, 1rem + 2.5vw, 3rem);
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
   border-top: 1px solid var(--linha);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .esp {
   padding: 1.35rem 0;
+  margin: 0;
   border-bottom: 1px solid var(--linha);
 }
 .esp h3 { font-size: 1.22rem; margin-bottom: .25em; }
 .esp p { margin: 0; color: var(--texto-suave); font-size: 1rem; }
 .esp-tel {
   display: inline-flex; align-items: center; gap: .35rem;
-  margin-top: .5rem; font-size: .93rem; font-weight: 700;
+  min-height: 44px;
+  margin-top: .25rem; font-size: 1rem; font-weight: 700;
   color: var(--terra-forte); text-decoration: none;
 }
 .esp-tel .ico { width: 1em; height: 1em; }
@@ -683,7 +695,7 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 .canal > p { color: var(--texto-suave); font-size: 1rem; flex: 1; }
 .canal-onde {
   display: inline-flex; align-items: center; gap: .4rem;
-  font-size: .9rem; font-weight: 700; color: var(--azul-forte);
+  font-size: 1rem; font-weight: 700; color: var(--azul-forte);
   margin-bottom: 1rem;
 }
 .canal-onde .ico { width: 1em; height: 1em; }
@@ -703,7 +715,7 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 
 .campo { margin-bottom: 1.5rem; }
 .campo > label,
-.campo > legend {
+fieldset > legend {
   display: block;
   font-weight: 700;
   font-size: 1.02rem;
@@ -713,7 +725,7 @@ hr { border: 0; border-top: 1px solid var(--linha); margin: 3rem 0; }
 }
 .campo-dica {
   display: block;
-  font-size: .93rem;
+  font-size: 1rem;
   color: var(--texto-suave);
   margin-bottom: .65rem;
 }
@@ -753,16 +765,20 @@ fieldset { border: 0; padding: 0; margin: 0 0 1.5rem; }
 .opcao small {
   display: block;
   font-weight: 400;
-  font-size: .88rem;
+  font-size: 1rem;
   color: var(--texto-suave);
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
+/* A borda dos campos usa cor propria, mais escura que --linha-forte: dentro
+   do cartao branco do formulario aquela dava 1.73:1, ou seja, o campo nao
+   tinha contorno visivel. Para o publico de oftalmologia isso e' o campo
+   deixar de existir. --borda-campo da 5.4:1. */
 input[type="text"], input[type="tel"], select, textarea {
   width: 100%;
   min-height: var(--toque);
   padding: .7rem .9rem;
-  border: 1.5px solid var(--linha-forte);
+  border: 1.5px solid var(--borda-campo);
   border-radius: var(--raio);
   background: var(--areia);
   font-family: var(--sans);
@@ -800,20 +816,6 @@ textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
   margin: 0;
   font-style: italic;
 }
-
-.form-erro {
-  color: #8a2415;
-  font-weight: 700;
-  font-size: .95rem;
-  margin-top: .5rem;
-}
-
-.sem-js {
-  border-top: 1px solid var(--linha);
-  margin-top: 2rem;
-  padding-top: 1.75rem;
-}
-.sem-js h3 { font-size: 1.12rem; }
 
 /* ------------------------------------------------------------------ */
 /* Passos                                                              */
@@ -988,7 +990,7 @@ textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
    erra. Tudo aqui recebe folga vertical para passar dos 40 px. */
 .rp-lista { list-style: none; margin: 0; padding: 0; }
 .rp-lista li { margin-bottom: .45rem; }
-.rp-canal { display: block; font-size: .85rem; color: #8fb0c6; }
+.rp-canal { display: block; font-size: 1rem; color: #8fb0c6; }
 .rp-lista a {
   display: inline-block;
   padding: .55rem 0;
@@ -1016,8 +1018,31 @@ textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
   font-size: .96rem; font-weight: 700;
 }
 
+/* Aviso de emergência, no rodapé de todas as páginas. Fica antes do bloco
+   legal e com tratamento próprio, porque é a única linha do rodapé que
+   alguém pode precisar ler com pressa. */
+.rp-emergencia {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .85rem;
+  align-items: start;
+  margin-top: 2.75rem;
+  padding: 1.1rem 1.3rem;
+  background: rgba(169, 83, 47, .22);
+  border: 1px solid rgba(232, 168, 136, .45);
+  border-left: 5px solid #e8a888;
+  border-radius: var(--raio);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #f3ded4;
+}
+.rp-emergencia .ico { color: #f0b295; width: 1.4em; height: 1.4em; margin-top: .1em; }
+.rp-emergencia b { color: var(--branco); }
+.rp-emergencia a { color: #ffd9c6; font-weight: 700; text-decoration: underline; }
+.rp-emergencia a:hover { color: var(--branco); }
+
 .rp-legal {
-  margin-top: 3rem;
+  margin-top: 2rem;
   padding-top: 1.75rem;
   border-top: 1px solid rgba(255, 255, 255, .14);
   font-size: .9rem;
@@ -1062,9 +1087,12 @@ textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
   }
   .topo-botao:hover { background: var(--azul-veu); }
 
+  /* Sem `order` aqui de proposito. Reordenar visualmente o botao Agendar
+     para antes da lista do menu fazia o tabulador descer os seis links e so
+     depois voltar para cima, que e' desencontro de ordem de foco (2.4.3).
+     Na ordem do DOM o menu aberto le: Menu, os links, Agendar. */
   .topo-nav {
     display: none;
-    order: 3;
     width: 100%;
     margin-left: 0;
     padding-top: .75rem;
@@ -1075,7 +1103,6 @@ textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
   .topo-nav a { padding: .85rem .75rem; font-size: 1.05rem; }
 
   .topo-linha { flex-wrap: wrap; gap: .75rem; }
-  .topo-acao { order: 2; }
   .topo-acao .btn { padding: .6rem 1.05rem; font-size: .95rem; }
   .logo { width: 168px; }
 }

@@ -40,12 +40,26 @@ export function contexto({ preview }) {
     preview,
     origem: CLINICA.origem,
     pendencias,
+    /* A marcação diz só "a confirmar", e não repete o rótulo. Quem chama já
+       escreveu o rótulo na frase ("Diretor técnico: ..."), e repetir dentro da
+       marcação produzia "Diretor técnico: Diretor técnico: a confirmar" no
+       rodapé de todas as páginas. O rótulo continua no title, para quem passa
+       o cursor, e em ctx.pendencias, que é quem trava a build. */
     dado(valor, rotulo) {
       if (valor !== null && valor !== undefined && valor !== '') { return esc(valor); }
       pendencias.push(rotulo);
-      return `<span class="pendente" title="Dado a confirmar com a clínica">${esc(rotulo)}: a confirmar</span>`;
+      return `<span class="pendente" title="${esc(rotulo)}: a confirmar com a clínica">a confirmar</span>`;
     },
-    /* Igual ao anterior, mas devolve texto puro para atributos e metadados. */
+    /* Registra uma pendência que não tem um lugar na página para aparecer,
+       mas que precisa travar a produção do mesmo jeito. Serve para afirmação
+       cujo texto está publicado e parece pronto, e cuja fonte não aguenta o
+       peso: a lista de especialidades é o caso, lida de um índice de busca
+       que ninguém conseguiu auditar. */
+    pendencia(rotulo) {
+      pendencias.push(rotulo);
+      return '';
+    },
+    /* Igual a dado(), mas devolve texto puro para atributos e metadados. */
     dadoTexto(valor, alternativa, rotulo) {
       if (valor !== null && valor !== undefined && valor !== '') { return valor; }
       pendencias.push(rotulo);
@@ -91,8 +105,8 @@ export const ICO = {
 /* Arte oficial da própria clínica, extraída da imagem publicada por ela e
    recortada com canal alfa. Não é recriação: é o arquivo original, com o
    fundo azul removido. Proporção 982 por 208. */
-export const logo = ({ base = '', variante = 'azul', classe = 'logo' } = {}) =>
-  `<img class="${classe}" src="${base}assets/img/logo-aconchego-${variante}.png" width="982" height="208" alt="${esc(CLINICA.nome)}" decoding="async">`;
+export const logo = ({ base = '', variante = 'azul', classe = 'logo', alt = CLINICA.nome } = {}) =>
+  `<img class="${classe}" src="${base}assets/img/logo-aconchego-${variante}.png" width="982" height="208" alt="${esc(alt)}" decoding="async">`;
 
 /* ------------------------------------------------------------------ */
 /* Botões                                                              */
@@ -116,11 +130,11 @@ function cabecalho(p, ctx) {
 <a class="pular" href="#conteudo">Ir direto ao conteúdo</a>
 ${ctx.preview ? faixaPrevia() : ''}
 <div class="tarja">
-  <p>Mantido pelo ${esc(CLINICA.mantenedor)}, instituição sem fins lucrativos de ${esc(CLINICA.cidade)} desde ${CLINICA.mantenedorDesde}.</p>
+  <p>Mantido pelo ${esc(CLINICA.mantenedor)}, instituição sem fins lucrativos que atende a cidade desde ${CLINICA.mantenedorDesde}.</p>
 </div>
 <header class="topo">
   <div class="env topo-linha">
-    <a class="topo-marca" href="${b}index.html" aria-label="${esc(CLINICA.nome)}, ir para a página inicial">${logo({ base: b, variante: 'azul' })}</a>
+    <a class="topo-marca" href="${b}index.html" aria-label="${esc(CLINICA.nome)}, ir para a página inicial">${logo({ base: b, variante: 'azul', alt: '' })}</a>
     <button class="topo-botao" type="button" id="abrir-menu" aria-expanded="false" aria-controls="navegacao">
       ${ICO.menu}<span>Menu</span>
     </button>
@@ -128,7 +142,7 @@ ${ctx.preview ? faixaPrevia() : ''}
       <ul>${itens}</ul>
     </nav>
     <div class="topo-acao">
-      ${botao({ href: `${b}agendamento.html`, texto: 'Agendar', tipo: 'principal', icone: ICO.calendario })}
+      ${botao({ href: `${b}agendamento.html`, texto: 'Agendar', tipo: 'principal', icone: ICO.calendario, extra: p.path === 'agendamento.html' ? ' aria-current="page"' : '' })}
     </div>
   </div>
 </header>`;
@@ -183,16 +197,21 @@ function rodape(p, ctx) {
         <ul class="rp-lista rp-links">
           ${MENU.map(m => `<li><a href="${b}${m.path}">${esc(m.rotulo)}</a></li>`).join('')}
           <li><a href="${b}agendamento.html">Agendar</a></li>
-          <li><a href="${b}contato.html">Contato</a></li>
+          <li><a href="${b}instituicao.html">A instituição</a></li>
           <li><a href="${b}privacidade.html">Privacidade</a></li>
         </ul>
       </div>
     </div>
 
+    <p class="rp-emergencia">
+      ${ICO.alerta}
+      <span><b>Emergência não se resolve por site nem por mensagem.</b> Esta não é uma unidade de pronto-socorro. Se alguém está passando mal agora, procure o serviço de urgência mais próximo ou ligue para o SAMU no <a href="tel:192">192</a>.</span>
+    </p>
+
     <div class="rp-legal">
       <p class="rp-ident">
         ${esc(CLINICA.razaoSocial)}. CNPJ ${esc(CLINICA.cnpj)}. ${esc(CLINICA.naturezaJuridica)}.
-        Diretor técnico: ${ctx.dado(CLINICA.diretorTecnico, 'Diretor técnico')} ${ctx.dado(CLINICA.crmDiretorTecnico, 'CRM-SP do diretor técnico')}.
+        Diretor técnico: ${ctx.dado(CLINICA.diretorTecnico, 'Diretor técnico')}, CRM-SP ${ctx.dado(CLINICA.crmDiretorTecnico, 'CRM-SP do diretor técnico')}.
       </p>
       <p class="rp-aviso">
         As informações deste site têm caráter informativo e não substituem a consulta médica.
@@ -236,7 +255,7 @@ export function shell({ p, ctx, body, ld }) {
   const b = p.base;
   const url = `${ctx.origem}/${p.path === 'index.html' ? '' : p.path}`;
   const titulo = p.path === 'index.html'
-    ? `${CLINICA.nome}, ${CLINICA.assinatura} em ${CLINICA.cidade} SP`
+    ? `${CLINICA.nome} | Consultas, exames e cirurgias em ${CLINICA.cidade} ${CLINICA.uf}`
     : `${p.titulo} | ${CLINICA.nome}`;
 
   const jsonld = ld ? `<script type="application/ld+json">${JSON.stringify(ld, null, 0).replace(/</g, '\\u003c')}</script>` : '';
@@ -276,7 +295,7 @@ ${jsonld}
 </head>
 <body${p.classe ? ` class="${p.classe}"` : ''}>
 ${cabecalho(p, ctx)}
-<main id="conteudo">
+<main id="conteudo" tabindex="-1">
 ${body}
 </main>
 ${rodape(p, ctx)}

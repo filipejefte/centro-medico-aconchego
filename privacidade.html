@@ -39,23 +39,23 @@
   <p><strong>Prévia de apresentação.</strong> Esta página é uma proposta de site preparada para a diretoria do Centro Médico Aconchego. Ainda não é o site oficial da clínica e não está no ar para o público. Os dados marcados como "a confirmar" precisam ser conferidos pela instituição antes de qualquer publicação.</p>
 </div>
 <div class="tarja">
-  <p>Mantido pelo Hospital Espírita de Marília, instituição sem fins lucrativos de Marília desde 1948.</p>
+  <p>Mantido pelo Hospital Espírita de Marília, instituição sem fins lucrativos que atende a cidade desde 1948.</p>
 </div>
 <header class="topo">
   <div class="env topo-linha">
-    <a class="topo-marca" href="index.html" aria-label="Centro Médico Aconchego, ir para a página inicial"><img class="logo" src="assets/img/logo-aconchego-azul.png" width="982" height="208" alt="Centro Médico Aconchego" decoding="async"></a>
+    <a class="topo-marca" href="index.html" aria-label="Centro Médico Aconchego, ir para a página inicial"><img class="logo" src="assets/img/logo-aconchego-azul.png" width="982" height="208" alt="" decoding="async"></a>
     <button class="topo-botao" type="button" id="abrir-menu" aria-expanded="false" aria-controls="navegacao">
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span>
     </button>
     <nav class="topo-nav" id="navegacao" aria-label="Navegação principal">
-      <ul><li><a href="index.html">Início</a></li><li><a href="especialidades.html">Especialidades</a></li><li><a href="exames.html">Exames</a></li><li><a href="estrutura.html">Estrutura</a></li><li><a href="unidades.html">Unidades</a></li><li><a href="instituicao.html">A instituição</a></li></ul>
+      <ul><li><a href="index.html">Início</a></li><li><a href="especialidades.html">Especialidades</a></li><li><a href="exames.html">Exames</a></li><li><a href="estrutura.html">Estrutura</a></li><li><a href="unidades.html">Unidades</a></li><li><a href="contato.html">Contato</a></li></ul>
     </nav>
     <div class="topo-acao">
       <a class="btn btn-principal" href="agendamento.html"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.4"/><path d="M8 2.8v4.4M16 2.8v4.4M3.5 10.4h17"/></svg><span>Agendar</span></a>
     </div>
   </div>
 </header>
-<main id="conteudo">
+<main id="conteudo" tabindex="-1">
 
 
 <section class="pagina-cabeca">
@@ -76,21 +76,26 @@
       <li>Não guarda o que você digita.</li>
       <li>Não envia formulário para servidor nenhum.</li>
     </ul>
-    <p>Isso não é só uma promessa de texto. A página declara uma política de segurança de conteúdo com <b>connect-src 'none'</b> e <b>form-action 'none'</b>, o que faz o próprio navegador bloquear qualquer tentativa de enviar dados. Dá para conferir nas ferramentas de desenvolvedor do seu navegador.</p>
+    <p>Isso não é só promessa de texto. A página declara uma política de segurança de conteúdo com <b>connect-src 'none'</b> e <b>form-action 'none'</b>, o que faz o próprio navegador impedir que o site envie dados por conta própria, em segundo plano ou por formulário. Dá para conferir nas ferramentas de desenvolvedor do seu navegador.</p>
+    <p><b>Onde essa proteção termina.</b> Ela vale para envio automático. Ela não vale, e nem poderia valer, para um link que você mesmo abre: quando você toca em "Abrir no WhatsApp" ou em "Ver no mapa", o seu navegador sai deste site e vai para o outro serviço, levando junto o que aquele endereço contém. É disso que trata a seção seguinte.</p>
 
     <h2>O agendamento</h2>
-    <p>O formulário da página de agendamento monta uma frase com o que você escolheu e a coloca dentro de um link do WhatsApp. Todo esse processamento acontece no seu próprio aparelho.</p>
-    <p>A mensagem aparece inteira na tela antes de qualquer coisa. Se você tocar em "Abrir no WhatsApp", o seu aplicativo abre com a mensagem escrita e você decide se manda, se muda ou se desiste. Nada sai daqui sem essa decisão.</p>
-    <p>A partir do momento em que você envia a mensagem, a conversa passa a acontecer no WhatsApp, entre você e a clínica, sob as regras de privacidade desse aplicativo.</p>
+    <p>O formulário da página de agendamento monta uma frase com o que você escolheu e a coloca dentro de um link do WhatsApp. Todo esse processamento acontece no seu próprio aparelho, e a mensagem aparece inteira na tela antes de qualquer coisa.</p>
+    <p>Enquanto você preenche, nada sai do aparelho. Ao tocar em "Abrir no WhatsApp", o seu navegador abre um endereço do WhatsApp que já carrega a mensagem escrita. A partir daí a conversa acontece entre você e a clínica dentro do WhatsApp, que é um serviço da Meta e tem regras de privacidade próprias.</p>
+    <p>Dois efeitos práticos disso, ditos sem rodeio. O conteúdo da mensagem chega ao WhatsApp no momento em que o link abre, e não só quando você aperta enviar lá dentro. E o endereço aberto fica no histórico do seu navegador, como qualquer outro. Se estiver usando um aparelho compartilhado, vale apagar o histórico depois.</p>
 
     <h2>Por que pedimos tão pouco</h2>
-    <p>O formulário pede o mínimo para a recepção conseguir encaminhar: o serviço, a especialidade ou o exame, a forma de atendimento, o período e, se você quiser, o seu nome.</p>
-    <p>Não pedimos documento, endereço, data de nascimento, número de carteirinha nem descrição de sintoma. Essas informações são de saúde ou pessoais, têm proteção reforçada na Lei Geral de Proteção de Dados, e não fazem falta para marcar um horário. Elas devem ser dadas ao atendimento, no canal apropriado.</p>
+    <p>O formulário pede o mínimo para a recepção conseguir encaminhar: o serviço, a especialidade ou o exame, a forma de atendimento, o período e, se você quiser, o seu primeiro nome.</p>
+    <p><b>A especialidade e o exame são informação de saúde.</b> Dizer que você procura oncologia ou psiquiatria revela algo sobre você, e a Lei Geral de Proteção de Dados trata isso como dado sensível. Pedimos assim mesmo porque sem essa informação não há como marcar com quem atende, e ela vai junto na mensagem do WhatsApp. Se preferir não escrever isso, escolha "Ainda não sei" e resolva por telefone.</p>
+    <p>O que o formulário não pede: documento, endereço, data de nascimento, número de carteirinha e descrição de sintoma. Nada disso é necessário para marcar um horário. Essas informações devem ser dadas ao atendimento, no canal apropriado.</p>
+
+    <h2>Registros da hospedagem</h2>
+    <p>O site é servido por uma empresa de hospedagem, e toda hospedagem registra as requisições que recebe, com endereço IP e identificação do navegador. Esse registro é do hospedeiro, é o mesmo que acontece em qualquer site que você visita, e não é usado para identificar pacientes nem cruzado com nenhum outro dado.</p>
 
     <h2>Dados tratados pela clínica</h2>
     <p>Quando você fala com a clínica por telefone ou WhatsApp, ou quando é atendido, a instituição trata dados seus para prestar o serviço de saúde e cumprir obrigações legais, como o prontuário.</p>
     <p>Esse tratamento é feito pelo Hospital Espírita de Marília, CNPJ 52.050.010/0002-16, e não por este site. Para pedidos de acesso, correção ou exclusão de dados, fale pelos canais da página de <a href="contato.html">contato</a>.</p>
-    <p>Encarregado pelo tratamento de dados: <span class="pendente" title="Dado a confirmar com a clínica">Encarregado de dados (LGPD): a confirmar</span></p>
+    <p>Encarregado pelo tratamento de dados: <span class="pendente" title="Encarregado de dados (LGPD): a confirmar com a clínica">a confirmar</span></p>
 
     <h2>Conteúdo do site</h2>
     <p>As informações publicadas aqui são gerais e servem para orientar quem procura atendimento. Elas não substituem a consulta médica e não devem ser usadas para decidir tratamento por conta própria.</p>
@@ -140,18 +145,23 @@
       <div class="rp-col">
         <h3>Navegar</h3>
         <ul class="rp-lista rp-links">
-          <li><a href="index.html">Início</a></li><li><a href="especialidades.html">Especialidades</a></li><li><a href="exames.html">Exames</a></li><li><a href="estrutura.html">Estrutura</a></li><li><a href="unidades.html">Unidades</a></li><li><a href="instituicao.html">A instituição</a></li>
+          <li><a href="index.html">Início</a></li><li><a href="especialidades.html">Especialidades</a></li><li><a href="exames.html">Exames</a></li><li><a href="estrutura.html">Estrutura</a></li><li><a href="unidades.html">Unidades</a></li><li><a href="contato.html">Contato</a></li>
           <li><a href="agendamento.html">Agendar</a></li>
-          <li><a href="contato.html">Contato</a></li>
+          <li><a href="instituicao.html">A instituição</a></li>
           <li><a href="privacidade.html">Privacidade</a></li>
         </ul>
       </div>
     </div>
 
+    <p class="rp-emergencia">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.7 21.2 19.4H2.8Z"/><path d="M12 10v4"/><circle cx="12" cy="16.9" r=".9" fill="currentColor" stroke="none"/></svg>
+      <span><b>Emergência não se resolve por site nem por mensagem.</b> Esta não é uma unidade de pronto-socorro. Se alguém está passando mal agora, procure o serviço de urgência mais próximo ou ligue para o SAMU no <a href="tel:192">192</a>.</span>
+    </p>
+
     <div class="rp-legal">
       <p class="rp-ident">
         Hospital Espírita de Marília. CNPJ 52.050.010/0002-16. Associação privada sem fins lucrativos.
-        Diretor técnico: <span class="pendente" title="Dado a confirmar com a clínica">Diretor técnico: a confirmar</span> <span class="pendente" title="Dado a confirmar com a clínica">CRM-SP do diretor técnico: a confirmar</span>.
+        Diretor técnico: <span class="pendente" title="Diretor técnico: a confirmar com a clínica">a confirmar</span>, CRM-SP <span class="pendente" title="CRM-SP do diretor técnico: a confirmar com a clínica">a confirmar</span>.
       </p>
       <p class="rp-aviso">
         As informações deste site têm caráter informativo e não substituem a consulta médica.

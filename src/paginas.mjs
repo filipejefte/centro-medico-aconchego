@@ -74,11 +74,11 @@ const blocoUnidade = (u, base) => `
 </article>`;
 
 /** Chamada de fechamento, igual em todas as páginas de conteúdo. */
-const chamadaFinal = (base, texto) => `
+const chamadaFinal = (base, texto, titulo = 'Vamos marcar?') => `
 <section class="secao">
   <div class="env">
     <div class="chamada">
-      <h2>Vamos marcar?</h2>
+      <h2>${esc(titulo)}</h2>
       <p>${texto}</p>
       <div class="grupo-botoes">
         ${botao({ href: `${base}agendamento.html`, texto: 'Agendar atendimento', tipo: 'claro', icone: ICO.calendario })}
@@ -158,7 +158,7 @@ export function inicio(ctx) {
         O ${esc(CLINICA.nome)} é mantido pelo ${esc(CLINICA.mantenedor)}, instituição sem fins lucrativos que cuida da cidade há ${IDADE_HEM} anos. São duas unidades vizinhas no Alto Cafezal, uma para consultas e cirurgias, outra para exames de imagem.
       </p>
       <ul class="hero-selos">
-        <li>${ICO.coracao}<span>Mantido pelo ${esc(CLINICA.mantenedorSigla)} desde ${CLINICA.mantenedorDesde}</span></li>
+        <li>${ICO.coracao}<span>Mantido pelo ${esc(CLINICA.mantenedor)} desde ${CLINICA.mantenedorDesde}</span></li>
         <li>${ICO.documento}<span>SUS, convênios e particular</span></li>
         <li>${ICO.cama}<span>Internação e centro cirúrgico</span></li>
       </ul>
@@ -166,10 +166,10 @@ export function inicio(ctx) {
 
     <div class="escolha">
       <h2>Do que você precisa?</h2>
-      <p>Escolha abaixo. A gente já leva você para o telefone certo e diz em qual número da rua fica.</p>
+      <p>Escolha abaixo. A gente mostra o telefone certo e diz para qual número da rua você deve ir.</p>
       <div class="caminhos">${caminhos}</div>
       <p class="escolha-nota">
-        Prefere falar agora? WhatsApp <a href="${esc(C.consultas.whatsappLink)}" target="_blank" rel="noopener noreferrer">${esc(CONTATO.whatsapp.numero)}</a> ou consultas pelo <a href="tel:+${esc(C.consultas.e164)}">${esc(C.consultas.telefone)}</a>.
+        Prefere falar agora? Chame no WhatsApp <a href="${esc(C.consultas.whatsappLink)}" target="_blank" rel="noopener noreferrer">${esc(CONTATO.whatsapp.numero)}</a>, ou ligue para as consultas: <a href="tel:+${esc(C.consultas.e164)}">${esc(C.consultas.telefone)}</a>.
       </p>
     </div>
   </div>
@@ -191,7 +191,7 @@ export function inicio(ctx) {
     <div class="cabeca-secao">
       <span class="sobrenome">Atendimento</span>
       <h2>Dezesseis especialidades, em nove consultórios.</h2>
-      <p>Consultas eletivas no Centro Médico, com encaminhamento para exame, cirurgia ou internação sem sair da instituição.</p>
+      <p>Consultas marcadas com antecedência, no Centro Médico, com encaminhamento para exame, cirurgia ou internação sem sair da instituição.</p>
     </div>
     <div class="grade grade-2">
       <div class="cartao">
@@ -199,7 +199,7 @@ export function inicio(ctx) {
         <h3>Consultas nas especialidades</h3>
         <p>De clínica médica e pediatria a cardiologia, ortopedia e ginecologia. Quem não sabe qual especialidade procurar começa pela clínica médica.</p>
         <ul class="lista-check">${especialidadesResumo}</ul>
-        <p>${botao({ href: 'especialidades.html', texto: 'Ver as dezesseis', tipo: 'secundario', icone: ICO.seta })}</p>
+        <p>${botao({ href: 'especialidades.html', texto: 'Ver todas as áreas', tipo: 'secundario', icone: ICO.seta })}</p>
       </div>
       <div class="cartao">
         <div class="cartao-ico">${ICO.imagem}</div>
@@ -218,8 +218,8 @@ export function inicio(ctx) {
   <div class="env">
     <div class="cabeca-secao">
       <span class="sobrenome">Estrutura</span>
-      <h2>Muito mais do que consultório.</h2>
-      <p>O Centro Médico tem centro cirúrgico, enfermaria e leitos de recuperação no próprio prédio. Quem consulta aqui pode operar e se recuperar aqui.</p>
+      <h2>Consultório, centro cirúrgico e leitos, no mesmo prédio.</h2>
+      <p>O Centro Médico tem centro cirúrgico, enfermaria e leitos de recuperação no próprio prédio. Quem consulta aqui pode fazer a cirurgia e se recuperar aqui.</p>
     </div>
     <div class="grade grade-3">
       ${ESTRUTURA.slice(0, 6).map(e => `
@@ -291,7 +291,7 @@ export function inicio(ctx) {
     </div>
     <div class="prosa">
       <p>O ${esc(CLINICA.mantenedor)} foi fundado em ${CLINICA.mantenedorDesde} e é uma ${esc(CLINICA.naturezaJuridica.toLowerCase())}. Em ${CLINICA.inauguracao} abriu o ${esc(CLINICA.nome)} para atender a cidade e a região em especialidades, exames e cirurgias, e para dar retaguarda clínica ao próprio hospital.</p>
-      <p>Parte do atendimento é feita em parceria com a Prefeitura de ${esc(CLINICA.cidade)}, pelo Sistema Único de Saúde. O restante é por convênio ou particular.</p>
+      <p>Parte do atendimento é feita em parceria com a Prefeitura de ${esc(CLINICA.cidade)}, pelo Sistema Único de Saúde. O restante é por convênio ou particular. Confirme com a recepção como é o acesso pelo SUS hoje.</p>
       <p>${botao({ href: 'instituicao.html', texto: 'Sobre a instituição', tipo: 'secundario', icone: ICO.seta })}</p>
     </div>
   </div>
@@ -318,11 +318,11 @@ export function especialidades(ctx) {
   const base = '';
 
   const lista = ESPECIALIDADES.map(e => `
-    <div class="esp">
+    <li class="esp">
       <h3>${esc(e.nome)}</h3>
       <p>${esc(e.sobre)}</p>
       ${e.telefone ? `<a class="esp-tel" href="tel:+${esc(C.oftalmologia.e164)}">${ICO.telefone}<span>${esc(e.telefone)}</span></a>` : ''}
-    </div>`).join('');
+    </li>`).join('');
 
   const body = `
 ${cabecaPagina({
@@ -336,10 +336,21 @@ ${cabecaPagina({
     ${avisoDuasUnidades(base)}
 
     <div class="nota">
-      <p><b>Não sabe qual procurar?</b> Comece pela clínica médica. É a consulta que avalia a queixa geral e encaminha para a área certa, sem você precisar acertar de primeira.</p>
+      <p><b>Não sabe qual especialidade procurar?</b> Comece pela clínica médica. É a consulta que avalia a queixa geral e encaminha para a área certa, sem você precisar acertar de primeira.</p>
     </div>
 
-    <div class="especialidades">${lista}</div>
+    ${ctx.pendencia('Conferência da lista de especialidades, item a item')}
+    ${ctx.preview ? `
+    <div class="aviso">
+      ${ICO.alerta}
+      <div>
+        <p><b>Lista a conferir antes de publicar.</b> Estas dezesseis áreas foram lidas do índice de busca do site do mantenedor, que não pôde ser auditado diretamente. Cada linha aqui é uma promessa de serviço, e áreas como oncologia e psiquiatria atraem quem não pode perder dias ligando para o lugar errado.</p>
+        <p>A instituição precisa confirmar a lista item a item. Enquanto isso não acontecer, a build de produção fica bloqueada.</p>
+      </div>
+    </div>` : ''}
+
+    <h2 id="lista-especialidades">As dezesseis áreas de atendimento</h2>
+    <ul class="especialidades" aria-labelledby="lista-especialidades">${lista}</ul>
   </div>
 </section>
 
@@ -353,7 +364,7 @@ ${cabecaPagina({
   </div>
 </section>
 
-${chamadaFinal(base, 'Diga a especialidade que você procura, ou peça orientação se ainda não souber.')}
+${chamadaFinal(base, 'Diga a área que você procura, ou peça orientação se ainda não souber.', 'Quer marcar essa consulta?')}
 `;
 
   return {
@@ -394,10 +405,11 @@ ${cabecaPagina({
       ${ICO.local}
       <div>
         <p><b>Atenção ao endereço do exame de imagem.</b> A unidade de Diagnóstico por Imagem fica no número <b>340</b> da Rua Dr. Joaquim de Abreu Sampaio Vidal, e não no mesmo prédio das consultas.</p>
-        <p>É a poucos metros do Centro Médico, na mesma rua e no mesmo bairro. Se estiver usando aplicativo de mapa, confira se o número que aparece é o 340 antes de sair.</p>
+        <p>Fica na mesma rua e no mesmo bairro do Centro Médico, em outro prédio. Se estiver usando aplicativo de mapa, confira se o número que aparece é o 340 antes de sair.</p>
       </div>
     </div>
 
+    <h2>O que é feito, e onde</h2>
     <div class="grade grade-dupla">
       ${EXAMES.map(e => `
       <div class="cartao">
@@ -431,7 +443,7 @@ ${cabecaPagina({
           <li>${ICO.check}<span>Se precisa tomar água ou algum remédio antes</span></li>
           <li>${ICO.check}<span>Quanto tempo o exame costuma levar</span></li>
           <li>${ICO.check}<span>Se você pode dirigir depois</span></li>
-          <li>${ICO.check}<span>Em qual número da rua você deve entrar</span></li>
+          <li>${ICO.check}<span>Em qual número da rua você deve chegar</span></li>
         </ul>
       </div>
     </div>
@@ -453,21 +465,21 @@ ${cabecaPagina({
         <p class="canal-onde">${ICO.local}<span>${esc(imagem.nome)}, número ${esc(imagem.numero)}</span></p>
         <p>${esc(C.exames.descricao)}</p>
         <div class="canal-acoes">
-          ${botao({ href: `${base}agendamento.html#exame-imagem`, texto: 'Agendar pelo site', tipo: 'principal', icone: ICO.calendario })}
+          ${botao({ href: `${base}agendamento.html#exame-imagem`, texto: 'Montar a mensagem', tipo: 'principal', icone: ICO.calendario })}
           ${botao({ href: C.exames.whatsappLink, texto: 'Falar no WhatsApp', tipo: 'zap', icone: ICO.whatsapp, externo: true })}
           ${botao({ href: `tel:+${C.exames.e164}`, texto: `Ligar ${C.exames.telefone}`, tipo: 'secundario', icone: ICO.telefone })}
         </div>
       </div>
       <div class="cartao">
         <h3>Resultado do exame</h3>
-        <p>A retirada do resultado e o prazo são informados no dia do exame. Guarde o comprovante que a recepção entregar: é ele que identifica o seu exame na hora de retirar.</p>
+        <p>O prazo e a forma de retirada do resultado são informados no agendamento e confirmados no dia do exame. Guarde o que a recepção entregar a você.</p>
         <p>Se você fizer o exame por encaminhamento, o resultado costuma ser levado de volta ao médico que pediu, na consulta de retorno.</p>
       </div>
     </div>
   </div>
 </section>
 
-${chamadaFinal(base, 'Tenha o pedido do médico em mãos. É ele que diz qual exame agendar e qual preparo é necessário.')}
+${chamadaFinal(base, 'Tenha o pedido do médico em mãos. É ele que diz qual exame agendar e qual preparo é necessário.', 'Vamos agendar o seu exame?')}
 `;
 
   return {
@@ -512,6 +524,7 @@ ${cabecaPagina({
 
 <section class="secao">
   <div class="env">
+    <h2>O que existe no prédio</h2>
     <div class="grade grade-3">
       ${ESTRUTURA.map(e => `
       <div class="cartao">
@@ -544,6 +557,7 @@ ${cabecaPagina({
     <div class="nota">
       <p><b>O acesso à internação é por indicação médica.</b> Ela parte da avaliação do médico que acompanha o caso, seja em consulta na própria clínica, seja por encaminhamento de outro serviço.</p>
     </div>
+    ${ctx.pendencia('Confirmação do prazo de permanência e da equipe da UCP')}
   </div>
 </section>
 
@@ -553,17 +567,18 @@ ${cabecaPagina({
     <p>O centro cirúrgico tem duas salas e atende casos de pequena e média complexidade. Quem passa por cirurgia aqui é internado no próprio prédio, com enfermaria 24 horas e leitos de retaguarda.</p>
     <p>A indicação cirúrgica é feita em consulta, pela especialidade que acompanha o caso. O agendamento da cirurgia e as orientações de preparo são passados pela equipe depois dessa avaliação.</p>
     <h2>Emergência</h2>
-    <p>O Centro Médico tem sala de estabilização, estrutura para o primeiro atendimento de casos graves enquanto o paciente é avaliado e encaminhado.</p>
+    <p>O Centro Médico tem sala de estabilização. Ela atende intercorrência de quem já está em atendimento ou internado aqui, enquanto o caso é avaliado e encaminhado.</p>
     <div class="aviso">
       ${ICO.alerta}
       <div>
-        <p><b>Em emergência, não marque pelo site e não espere resposta de mensagem.</b> Procure o serviço de urgência mais próximo ou ligue para o SAMU, no <a href="tel:192">192</a>.</p>
+        <p><b>Esta não é uma unidade de pronto-socorro e não recebe urgência que chega da rua.</b> Se você ou alguém está passando mal agora, não marque pelo site e não espere resposta de mensagem.</p>
+        <p>Procure o serviço de urgência mais próximo, ou ligue para o SAMU no <a href="tel:192">192</a>. Em risco de vida, minuto conta mais do que endereço certo.</p>
       </div>
     </div>
   </div>
 </section>
 
-${chamadaFinal(base, 'Para avaliar uma cirurgia ou entender se o caso tem indicação de internação, comece por uma consulta.')}
+${chamadaFinal(base, 'Para avaliar uma cirurgia, ou entender se o caso tem indicação de internação, o caminho começa numa consulta.', 'Comece por uma consulta')}
 `;
 
   return {
@@ -595,10 +610,11 @@ ${cabecaPagina({
     <div class="aviso">
       ${ICO.local}
       <div>
-        <p><b>Confira o número da rua antes de sair de casa.</b> Os dois endereços ficam na mesma via e a poucos metros um do outro, o que torna fácil ir parar no prédio errado.</p>
-        <p>Se você marcou pelo telefone, pergunte para qual número deve ir. Se marcou pelo site, o número está na mensagem.</p>
+        <p><b>Confira o número da rua antes de sair de casa.</b> Os dois endereços ficam na mesma rua, e é fácil entrar no prédio errado sem perceber.</p>
+        <p>Se você marcou pelo telefone, pergunte para qual número deve ir. Se pediu pelo WhatsApp, o número da rua está na mensagem.</p>
       </div>
     </div>
+    <h2>Os dois endereços</h2>
     ${UNIDADES.map(u => blocoUnidade(u, base)).join('')}
   </div>
 </section>
@@ -637,7 +653,7 @@ ${cabecaPagina({
   </div>
 </section>
 
-${chamadaFinal(base, 'Ao agendar, a mensagem já sai com o número da rua para onde você deve ir.')}
+${chamadaFinal(base, 'Ao pedir pelo WhatsApp, a mensagem já sai com o número da rua para onde você deve ir.', 'Já sabe para qual número ir?')}
 `;
 
   return {
@@ -667,12 +683,12 @@ ${cabecaPagina({
 <section class="secao">
   <div class="env env-estreito prosa">
     <h2>Há ${IDADE_HEM} anos na cidade</h2>
-    <p>O ${esc(CLINICA.mantenedor)} foi fundado em ${CLINICA.mantenedorDesde} e mantém desde então atendimento em saúde em ${esc(CLINICA.cidade)}. É uma ${esc(CLINICA.naturezaJuridica.toLowerCase())}, o que significa que o resultado da operação volta para a própria atividade assistencial.</p>
+    <p>O ${esc(CLINICA.mantenedor)} foi fundado em ${CLINICA.mantenedorDesde} e atende em saúde em ${esc(CLINICA.cidade)}. É uma ${esc(CLINICA.naturezaJuridica.toLowerCase())}: não tem dono e não distribui lucro. O que sobra do atendimento volta para o próprio atendimento.</p>
     <p>Em ${CLINICA.inauguracao} a instituição abriu o ${esc(CLINICA.nome)}, com consultórios, salas de exame e centro cirúrgico. A ideia era dar à cidade um lugar para consulta, exame e cirurgia de pequena e média complexidade, e ao mesmo tempo dar retaguarda clínica ao hospital.</p>
     <p>Em ${UCP.desde} entrou em operação a ${esc(UCP.titulo)}, com ${UCP.leitos} leitos para pacientes que precisam de mais tempo de recuperação.</p>
 
     <h2>Atendimento pelo SUS</h2>
-    <p>Parte do atendimento é feita em parceria com a Prefeitura de ${esc(CLINICA.cidade)}, dentro do Programa de Parceria na Assistência à Saúde do SUS. Nesses casos o acesso é pela rede municipal, com encaminhamento.</p>
+    <p>Parte do atendimento é feita em parceria com a Prefeitura de ${esc(CLINICA.cidade)}, dentro do Programa de Parceria na Assistência à Saúde do SUS. Como o acesso funciona hoje deve ser confirmado com a recepção, porque depende do fluxo da rede municipal.</p>
     <p>A instituição também recebe recursos públicos por emendas parlamentares e apoio de empresas e entidades da cidade e da região.</p>
 
     <h2>Identificação</h2>
@@ -681,7 +697,7 @@ ${cabecaPagina({
       <li>CNPJ: ${esc(CLINICA.cnpj)}</li>
       <li>Natureza jurídica: ${esc(CLINICA.naturezaJuridica)}</li>
       <li>Diretor técnico: ${ctx.dado(CLINICA.diretorTecnico, 'Diretor técnico')}</li>
-      <li>Inscrição no conselho: ${ctx.dado(CLINICA.crmDiretorTecnico, 'CRM-SP do diretor técnico')}</li>
+      <li>Inscrição no conselho, CRM-SP: ${ctx.dado(CLINICA.crmDiretorTecnico, 'CRM-SP do diretor técnico')}</li>
     </ul>
   </div>
 </section>
@@ -699,10 +715,11 @@ ${cabecaPagina({
         <p>${esc(a.sobre)}</p>
       </div>`).join('')}
     </div>
+    ${ctx.pendencia('Renovação do contrato CV-1200/21 do SUS, que vence em 22/09/2026')}
   </div>
 </section>
 
-${chamadaFinal(base, 'Para marcar uma consulta ou um exame, escolha o serviço e fale com a recepção.')}
+${chamadaFinal(base, 'Para marcar uma consulta ou um exame, escolha o serviço e fale com a recepção.', 'Precisa de atendimento?')}
 `;
 
   return {
@@ -736,7 +753,8 @@ export function agendamento(ctx) {
   const opcaoServico = (id, ancora, valor, rotulo, sub, canal, onde) => `
     <label class="opcao" id="${esc(ancora)}" for="serv-${id}">
       <input type="radio" name="servico" id="serv-${id}" value="${esc(valor)}"
-        data-telefone="${esc(canal.telefone)}" data-e164="${esc(canal.e164)}" data-onde="${esc(onde)}"${id === 'consulta' ? ' checked' : ''}>
+        data-telefone="${esc(canal.telefone)}" data-e164="${esc(canal.e164)}"
+        data-numero="${esc(U[canal.unidade].numero)}" data-onde="${esc(onde)}"${id === 'consulta' ? ' checked' : ''}>
       <span>${esc(rotulo)}<small>${esc(sub)}</small></span>
     </label>`;
 
@@ -766,39 +784,58 @@ ${cabecaPagina({
 
 <section class="secao">
   <div class="env">
+    <div class="aviso">
+      ${ICO.alerta}
+      <div>
+        <p><b>Se for emergência, saia desta página.</b> Esta clínica não é pronto-socorro, e mensagem pode demorar a ser lida. Procure o serviço de urgência mais próximo ou ligue para o SAMU no <a href="tel:192">192</a>.</p>
+      </div>
+    </div>
+
+    <h2>Monte o seu pedido</h2>
     <div class="grade grade-2">
       <form class="form-caixa" id="form-agendar" data-zap="${esc(CONTATO.whatsapp.e164)}" novalidate>
-        <fieldset>
+        <fieldset aria-describedby="dica-servico">
           <legend>1. Do que você precisa?</legend>
-          <span class="campo-dica">Escolha uma opção. O telefone de cada serviço é diferente.</span>
+          <span class="campo-dica" id="dica-servico">Escolha uma opção. O telefone de cada serviço é diferente.</span>
           <div class="opcoes">
             ${opcaoServico('consulta', 'consulta', 'consulta', 'Uma consulta', 'Qualquer especialidade, no número 430', C.consultas, 'As consultas são no Centro Médico, no número 430 da Rua Dr. Joaquim de Abreu Sampaio Vidal.')}
             ${opcaoServico('exame', 'exame-imagem', 'exame', 'Um exame de imagem', 'Tomografia, ultrassom ou raio X, no número 340', C.exames, 'Os exames de imagem são no Diagnóstico por Imagem, no número 340 da Rua Dr. Joaquim de Abreu Sampaio Vidal.')}
+            ${opcaoServico('laboratorio', 'laboratorio', 'laboratorio', 'Exame de sangue ou laboratório', 'Coleta no Centro Médico, no número 430', C.consultas, 'A coleta de sangue e as análises clínicas são no Centro Médico, no número 430 da Rua Dr. Joaquim de Abreu Sampaio Vidal, e não na unidade de imagem.')}
             ${opcaoServico('oftalmo', 'oftalmologia', 'oftalmologia', 'Oftalmologia', 'Agenda e telefone próprios, no número 430', C.oftalmologia, 'A oftalmologia atende no Centro Médico, no número 430 da Rua Dr. Joaquim de Abreu Sampaio Vidal.')}
           </div>
-          <p class="nota" id="aviso-onde" hidden></p>
+          <p class="nota" id="aviso-onde" role="status" hidden></p>
         </fieldset>
 
         <div class="campo" id="bloco-especialidade">
           <label for="especialidade">2. Qual especialidade?</label>
-          <span class="campo-dica">Se não souber, deixe em branco. A recepção orienta.</span>
-          <select id="especialidade" name="especialidade">
+          <span class="campo-dica" id="dica-especialidade">Se não souber, deixe em branco. A recepção orienta.</span>
+          <select id="especialidade" name="especialidade" aria-describedby="dica-especialidade">
             <option value="">Ainda não sei, preciso de orientação</option>
-            ${ESPECIALIDADES.map(e => `<option value="${esc(e.nome)}">${esc(e.nome)}</option>`).join('')}
+            ${/* Oftalmologia sai daqui de propósito: ela tem agenda e telefone
+                  próprios, e escolhê-la nesta lista mandava a pessoa para o
+                  telefone de consultas. Ela é a opção 4 da pergunta 1. */
+              ESPECIALIDADES.filter(e => e.slug !== 'oftalmologia')
+                .map(e => `<option value="${esc(e.nome)}">${esc(e.nome)}</option>`).join('')}
           </select>
+          <p class="campo-dica">Procura oftalmologia? Volte à pergunta 1 e escolha a opção de oftalmologia, que tem agenda própria.</p>
         </div>
 
         <div class="campo" id="bloco-exame" hidden>
           <label for="tipo-exame">2. Qual exame?</label>
-          <span class="campo-dica">Está escrito no pedido do médico. Se não souber, deixe em branco.</span>
-          <select id="tipo-exame" name="tipo-exame">
+          <span class="campo-dica" id="dica-exame">Está escrito no pedido do médico. Se não souber, deixe em branco.</span>
+          <select id="tipo-exame" name="tipo-exame" aria-describedby="dica-exame">
             <option value="">Ainda não sei</option>
-            ${EXAMES.map(e => `<option value="${esc(e.nome)}">${esc(e.nome)}</option>`).join('')}
+            ${/* Só os exames da unidade de imagem. Listar análises clínicas
+                  aqui mandava quem escolhesse "sangue" para o número 340 e
+                  para o telefone da imagem, que é o erro exato que este site
+                  existe para corrigir. Elas têm opção de serviço própria. */
+              EXAMES.filter(e => e.unidade === 'diagnostico-por-imagem')
+                .map(e => `<option value="${esc(e.nome)}">${esc(e.nome)}</option>`).join('')}
           </select>
         </div>
 
         <fieldset>
-          <legend>3. Como será o atendimento?</legend>
+          <legend>3. O atendimento vai ser pelo SUS, por convênio ou particular?</legend>
           <div class="opcoes opcoes-2">
             ${opcaoRadio('forma', 'forma-convenio', 'por convênio', 'Por convênio')}
             ${opcaoRadio('forma', 'forma-particular', 'particular', 'Particular')}
@@ -818,18 +855,22 @@ ${cabecaPagina({
 
         <div class="campo">
           <label for="nome">5. Seu nome</label>
-          <span class="campo-dica">Só o primeiro nome já ajuda. É opcional.</span>
-          <input type="text" id="nome" name="nome" autocomplete="given-name" maxlength="80" spellcheck="false">
+          <span class="campo-dica" id="dica-nome">Só o primeiro nome já ajuda. É opcional.</span>
+          <input type="text" id="nome" name="nome" aria-describedby="dica-nome" autocomplete="given-name" maxlength="80" spellcheck="false">
         </div>
 
         <div class="previa-msg">
-          <h3>A mensagem que será aberta</h3>
+          <h3 id="rotulo-previa">A mensagem que será aberta</h3>
           <p id="previa-mensagem">Escolha o que você precisa para ver a mensagem.</p>
         </div>
 
         <div class="canal-acoes">
-          <a class="btn btn-zap btn-largo" id="btn-zap" href="https://wa.me/${esc(CONTATO.whatsapp.e164)}" target="_blank" rel="noopener noreferrer">${ICO.whatsapp}<span>Abrir no WhatsApp</span></a>
+          <a class="btn btn-zap btn-largo" id="btn-zap" href="https://wa.me/${esc(CONTATO.whatsapp.e164)}" target="_blank" rel="noopener noreferrer" aria-describedby="previa-mensagem">${ICO.whatsapp}<span>Abrir no WhatsApp</span></a>
           <a class="btn btn-secundario btn-largo" id="btn-tel" href="tel:+${esc(C.consultas.e164)}">${ICO.telefone}<span id="rotulo-tel">Ligar ${esc(C.consultas.telefone)}</span></a>
+        </div>
+
+        <div class="nota">
+          <p><b>Quem atende você.</b> O ${esc(CLINICA.nome)} é mantido pelo ${esc(CLINICA.mantenedor)}, associação sem fins lucrativos que atende a cidade desde ${CLINICA.mantenedorDesde}. São nove consultórios, centro cirúrgico, enfermaria 24 horas e leitos de internação no mesmo prédio das consultas.</p>
         </div>
 
         <div class="nota">
@@ -868,7 +909,7 @@ ${cabecaPagina({
     <details class="pergunta">
       <summary>Preciso de pedido médico?</summary>
       <div class="pergunta-corpo">
-        <p>Para exame, sim: é o pedido que diz qual exame fazer e qual preparo é necessário. Para consulta, não é obrigatório, mas se você já tem encaminhamento, leve.</p>
+        <p>Para exame, sim: é o pedido que diz qual exame fazer e qual preparo é necessário. Para consulta particular ou por convênio não é obrigatório, mas se você já tem encaminhamento, leve. Pelo SUS o acesso depende do fluxo da rede municipal, então confirme com a recepção.</p>
       </div>
     </details>
 
@@ -887,9 +928,26 @@ ${cabecaPagina({
     </details>
 
     <details class="pergunta">
+      <summary>Sou do SUS. Como faço?</summary>
+      <div class="pergunta-corpo">
+        <p>O caminho pelo SUS depende do fluxo da rede municipal de saúde, e não começa aqui. Antes de mandar mensagem, confirme com a recepção como funciona hoje, pelo <a href="tel:+${esc(C.consultas.e164)}">${esc(C.consultas.telefone)}</a>.</p>
+        <p>Se você já tem encaminhamento em mãos e quer confirmar dia e hora, ligue para o mesmo número.</p>
+      </div>
+    </details>
+
+    <details class="pergunta">
+      <summary>Em quanto tempo vocês respondem o WhatsApp?</summary>
+      <div class="pergunta-corpo">
+        <p>A recepção responde em horário de atendimento. Mensagem enviada fora do horário costuma ser lida no próximo dia útil, e por isso o WhatsApp não serve para urgência.</p>
+        <p>Se a sua questão não pode esperar, ligue. O telefone de cada serviço está nesta página.</p>
+      </div>
+    </details>
+
+    <details class="pergunta">
       <summary>E se for uma emergência?</summary>
       <div class="pergunta-corpo">
-        <p>Não use este site nem espere resposta de mensagem. Procure o serviço de urgência mais próximo ou ligue para o SAMU, no <a href="tel:192">192</a>.</p>
+        <p><b>Esta clínica não é pronto-socorro e não faz atendimento de urgência sem agendamento.</b> A sala de estabilização atende quem já está aqui dentro, durante uma consulta, um exame ou uma internação.</p>
+        <p>Se você está passando mal agora, procure o serviço de urgência mais próximo ou ligue para o SAMU, no <a href="tel:192">192</a>.</p>
       </div>
     </details>
   </div>
@@ -928,11 +986,12 @@ export function contato(ctx) {
 ${cabecaPagina({
     base, migalha: 'Contato',
     titulo: 'Contato',
-    entrada: 'Cada serviço tem seu telefone. Escolha pelo que você precisa e você chega direto em quem resolve.'
+    entrada: 'Cada serviço tem o seu telefone. Escolha pelo assunto e você fala direto com quem cuida dele.'
   })}
 
 <section class="secao">
   <div class="env">
+    <h2>Telefones por serviço</h2>
     <div class="grade grade-3">${canais}</div>
 
     <div class="nota">
@@ -954,7 +1013,7 @@ ${cabecaPagina({
 <section class="secao">
   <div class="env env-estreito prosa">
     <h2>Outros assuntos</h2>
-    <p>Para segunda via de documento, nota fiscal, prontuário ou assunto do setor financeiro, ligue para o telefone de consultas, <a href="tel:+${esc(C.consultas.e164)}">${esc(C.consultas.telefone)}</a>, e peça para ser encaminhado ao setor responsável.</p>
+    <p>Segunda via de documento, nota fiscal, prontuário e assuntos do setor financeiro são tratados pela administração da instituição, e não pela agenda de consultas. Ligue para <a href="tel:+${esc(C.consultas.e164)}">${esc(C.consultas.telefone)}</a> e peça para ser encaminhado ao setor responsável.</p>
     <p>E-mail de atendimento: ${ctx.dado(CLINICA.email, 'E-mail de atendimento')}</p>
     <p>Horário de funcionamento: ${ctx.dado(CLINICA.horarios, 'Horário de funcionamento')}</p>
 
@@ -1002,16 +1061,21 @@ ${cabecaPagina({
       <li>Não guarda o que você digita.</li>
       <li>Não envia formulário para servidor nenhum.</li>
     </ul>
-    <p>Isso não é só uma promessa de texto. A página declara uma política de segurança de conteúdo com <b>connect-src 'none'</b> e <b>form-action 'none'</b>, o que faz o próprio navegador bloquear qualquer tentativa de enviar dados. Dá para conferir nas ferramentas de desenvolvedor do seu navegador.</p>
+    <p>Isso não é só promessa de texto. A página declara uma política de segurança de conteúdo com <b>connect-src 'none'</b> e <b>form-action 'none'</b>, o que faz o próprio navegador impedir que o site envie dados por conta própria, em segundo plano ou por formulário. Dá para conferir nas ferramentas de desenvolvedor do seu navegador.</p>
+    <p><b>Onde essa proteção termina.</b> Ela vale para envio automático. Ela não vale, e nem poderia valer, para um link que você mesmo abre: quando você toca em "Abrir no WhatsApp" ou em "Ver no mapa", o seu navegador sai deste site e vai para o outro serviço, levando junto o que aquele endereço contém. É disso que trata a seção seguinte.</p>
 
     <h2>O agendamento</h2>
-    <p>O formulário da página de agendamento monta uma frase com o que você escolheu e a coloca dentro de um link do WhatsApp. Todo esse processamento acontece no seu próprio aparelho.</p>
-    <p>A mensagem aparece inteira na tela antes de qualquer coisa. Se você tocar em "Abrir no WhatsApp", o seu aplicativo abre com a mensagem escrita e você decide se manda, se muda ou se desiste. Nada sai daqui sem essa decisão.</p>
-    <p>A partir do momento em que você envia a mensagem, a conversa passa a acontecer no WhatsApp, entre você e a clínica, sob as regras de privacidade desse aplicativo.</p>
+    <p>O formulário da página de agendamento monta uma frase com o que você escolheu e a coloca dentro de um link do WhatsApp. Todo esse processamento acontece no seu próprio aparelho, e a mensagem aparece inteira na tela antes de qualquer coisa.</p>
+    <p>Enquanto você preenche, nada sai do aparelho. Ao tocar em "Abrir no WhatsApp", o seu navegador abre um endereço do WhatsApp que já carrega a mensagem escrita. A partir daí a conversa acontece entre você e a clínica dentro do WhatsApp, que é um serviço da Meta e tem regras de privacidade próprias.</p>
+    <p>Dois efeitos práticos disso, ditos sem rodeio. O conteúdo da mensagem chega ao WhatsApp no momento em que o link abre, e não só quando você aperta enviar lá dentro. E o endereço aberto fica no histórico do seu navegador, como qualquer outro. Se estiver usando um aparelho compartilhado, vale apagar o histórico depois.</p>
 
     <h2>Por que pedimos tão pouco</h2>
-    <p>O formulário pede o mínimo para a recepção conseguir encaminhar: o serviço, a especialidade ou o exame, a forma de atendimento, o período e, se você quiser, o seu nome.</p>
-    <p>Não pedimos documento, endereço, data de nascimento, número de carteirinha nem descrição de sintoma. Essas informações são de saúde ou pessoais, têm proteção reforçada na Lei Geral de Proteção de Dados, e não fazem falta para marcar um horário. Elas devem ser dadas ao atendimento, no canal apropriado.</p>
+    <p>O formulário pede o mínimo para a recepção conseguir encaminhar: o serviço, a especialidade ou o exame, a forma de atendimento, o período e, se você quiser, o seu primeiro nome.</p>
+    <p><b>A especialidade e o exame são informação de saúde.</b> Dizer que você procura oncologia ou psiquiatria revela algo sobre você, e a Lei Geral de Proteção de Dados trata isso como dado sensível. Pedimos assim mesmo porque sem essa informação não há como marcar com quem atende, e ela vai junto na mensagem do WhatsApp. Se preferir não escrever isso, escolha "Ainda não sei" e resolva por telefone.</p>
+    <p>O que o formulário não pede: documento, endereço, data de nascimento, número de carteirinha e descrição de sintoma. Nada disso é necessário para marcar um horário. Essas informações devem ser dadas ao atendimento, no canal apropriado.</p>
+
+    <h2>Registros da hospedagem</h2>
+    <p>O site é servido por uma empresa de hospedagem, e toda hospedagem registra as requisições que recebe, com endereço IP e identificação do navegador. Esse registro é do hospedeiro, é o mesmo que acontece em qualquer site que você visita, e não é usado para identificar pacientes nem cruzado com nenhum outro dado.</p>
 
     <h2>Dados tratados pela clínica</h2>
     <p>Quando você fala com a clínica por telefone ou WhatsApp, ou quando é atendido, a instituição trata dados seus para prestar o serviço de saúde e cumprir obrigações legais, como o prontuário.</p>
